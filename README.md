@@ -1,6 +1,9 @@
 # IPsec Exporter [![CircleCI](https://circleci.com/gh/dennisstritzke/ipsec_exporter/tree/master.svg?style=svg)](https://circleci.com/gh/dennisstritzke/ipsec_exporter/tree/master)
 Prometheus exporter for ipsec metrics, written in Go.
 
+This version is a fork from Dennis Stritzke original work.
+It's made to accomplish strongswan based VPN user concentrator statistics.
+
 ## Quick Start
 ```
 glide install
@@ -11,7 +14,11 @@ go install github.com/dennisstritzke/ipsec_exporter
 ## Functionality
 The IPsec exporter is determining the state of the configured IPsec tunnels via the following procedure.
 1. Starting up the `ipsec.conf` is read. All tunnels configured via the `conn` keyword are observed.
-1. If the `/metrics` endpoint is queried, the exporter calls `ipsec status <tunnel name>` for each configured
+   * Authentication methods are matched for EAP or XAuth. If this methods are found in the conn config, the tunnel will be treated as a multiuser tunnel.
+      Metrics are then collected per user also, and the user name is exported under the label "user".
+   * If the previous authentication methods are not found, tunnel is treated like in the original version, is treated as a standard point 2 point tunnel, and no user information         is collected.
+   
+2. If the `/metrics` endpoint is queried, the exporter calls `ipsec status <tunnel name>` for each configured
 connection. The output is parsed.
     * If the output contains `ESTABLISHED`, we assume that only the connection is up.
     * If the output contains `INSTALLED`, we assume that the tunnel is up and running.
