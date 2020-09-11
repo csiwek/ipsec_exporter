@@ -27,8 +27,8 @@ connection. The output is parsed.
 ## Value Definition
 | Metric | Value | Description |
 |--------|-------|-------------|
-| ipsec_status | 0 | The connection is established and tunnel is installed. The tunnel is up and running. |
-| ipsec_status | 1 | The connection is established, but the tunnel is not up. |
-| ipsec_status | 2 | The tunnel is down. |
-| ipsec_status | 3 | The tunnel is in an unknown state. |
-| ipsec_status | 4 | The tunnel is ignored. |
+| ipsec_tunnel_status | 0 | The connection is established and tunnel is installed. The tunnel is up and running. |
+| ipsec_tunnel_status | 1 | The connection is established, but the tunnel is not up. |
+| ipsec_tunnel_status | 2 | The tunnel is down. |
+| ipsec_tunnel_status | 3 | The tunnel is in an unknown state. |
+| ipsec_tunnel_status | 4 | The tunnel is ignored. |
