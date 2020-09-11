@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.4](https://github.com/alvesjc/ipsec_exporter/tree/V0.4) - 2020-09-11
+### Changed
+- Added functionality to support Multiuser VPN Concentrator tunnels.
+
 ## [0.3.1](https://github.com/dennisstritzke/ipsec_exporter/releases/tag/v0.3) - 2019-05-02
 ### Changed
 - The exporter drops comments found in the `ipsec.conf`
@@ -40,17 +44,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Support for connection names that contain numbers.
 
 ### Changed
-- Golang dependency management to [Glide](https://github.com/Masterminds/glide). 
+- Golang dependency management to [Glide](https://github.com/Masterminds/glide).
 
 ## [0.1.1](https://github.com/dennisstritzke/ipsec_exporter/releases/tag/v0.1.1) - 2018-01-29
 ### Added
 - Checking, if the config file provided is readable.
 
 ### Changed
-- Warns, if there are no connections configured in the IPsec config file. 
+- Warns, if there are no connections configured in the IPsec config file.
 - Warns, if IPsec status couldn't be determined for a connection.
 
-## [0.1](https://github.com/dennisstritzke/ipsec_exporter/releases/tag/v0.1) - 2018-01-28 
+## [0.1](https://github.com/dennisstritzke/ipsec_exporter/releases/tag/v0.1) - 2018-01-28
 ### Added
 - Detection of configured IPsec tunnels by reading the `ipsec.conf` file.
 - Prometheus metrics, indicate if the tunnel is up, the connection is up or the tunnel is down.

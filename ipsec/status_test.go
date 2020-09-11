@@ -25,7 +25,7 @@ func TestQueryStatus(t *testing.T) {
 		},
 	}
 
-	status := queryStatus(configuration, &dummyStatusProvider{returnString: `Status of IKE charon daemon (strongSwan 5.3.5, Linux 4.4.0-31-generic, x86_64):
+	status := queryTunnelStatus(configuration, &dummyStatusProvider{returnString: `Status of IKE charon daemon (strongSwan 5.3.5, Linux 4.4.0-31-generic, x86_64):
   uptime: 18 days, since Jan 24 16:00:17 2019
   malloc: sbrk 1486848, mmap 0, used 343952, free 1142896
   worker threads: 11 of 16 idle, 5/0/0/0 working, job queue: 0/0/0/0, scheduled: 4
@@ -94,7 +94,7 @@ func TestQueryStatus_ignoredTunnel(t *testing.T) {
 		},
 	}
 
-	status := queryStatus(configuration, &dummyStatusProvider{returnString: ""})
+	status := queryTunnelStatus(configuration, &dummyStatusProvider{returnString: ""})
 
 	if status[tunnelName] == nil {
 		t.Errorf("Expected a status for the tunnel named '%s'.", tunnelName)
@@ -119,7 +119,7 @@ func TestQueryStatus_errorInProvider(t *testing.T) {
 		},
 	}
 
-	status := queryStatus(configuration, &dummyStatusProvider{returnError: errors.New("doesn't matter")})
+	status := queryTunnelStatus(configuration, &dummyStatusProvider{returnError: errors.New("doesn't matter")})
 
 	if status[tunnelName] == nil {
 		t.Errorf("Expected a status for the tunnel named '%s'.", tunnelName)
@@ -172,6 +172,17 @@ func TestExtractIntWithRegex(t *testing.T) {
 	if result != 42 {
 		t.Errorf("Expected to match '42', but got '%d'", result)
 	}
+}
+
+func TestExtractStringWithRegex(t *testing.T) {
+        input := "A string to match Remote EAP identity: joaoa"
+        regex := `Remote EAP identity: ([[0-9a-zA-Z]+)`
+
+        result := extractStringWithRegex(input, regex)
+
+        if result != "joaoa" {
+                t.Errorf("Expected to match 'joaoa', but got '%s'", result)
+        }
 }
 
 func TestExtractIntWithRegex_nonIntRegex(t *testing.T) {

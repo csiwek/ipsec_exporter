@@ -114,6 +114,24 @@ func TestGetConfiguredIpSecConnections_autoIgnore(t *testing.T) {
 	}
 }
 
+func TestGetConfiguredIpSecConnections_RightAuth(t *testing.T) {
+	input := "conn fancy_dc\n rightauth=eap-radius"
+	connections, _ := dummyIpSecConfigLoader().getConfiguredIpSecConnection(input)
+
+	if len(connections) != 1 {
+		t.Errorf("Expected to have found 1 connection, but has found %d", len(connections))
+		return
+	}
+
+	if connections[0].name != "fancy_dc" {
+		t.Errorf("Should have found connection 'fancy_dc', but found %s", connections[0].name)
+	}
+
+	if connections[0].auth != "eap" {
+		t.Errorf("Expected connection to be rightauth=eap-radius")
+	}
+}
+
 func TestGetConfiguredIpSecConnections_autoIgnoreMultipleTunnels(t *testing.T) {
 	input := "conn fancy_dc\n  esp=aes256-sha256-modp2048!\n\n  left=10.0.0.7\n\nconn second_dc\n  auto=ignore"
 	connections, _ := dummyIpSecConfigLoader().getConfiguredIpSecConnection(input)

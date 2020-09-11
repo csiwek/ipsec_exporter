@@ -11,6 +11,7 @@ import (
 type connection struct {
 	name    string
 	ignored bool
+	auth	string
 }
 
 type Configuration struct {
@@ -87,6 +88,25 @@ func (l *ipSecConfigurationLoader) getConfiguredIpSecConnection(ipSecConfigConte
 			if len(connections) > connectionIndex {
 				connections[connectionIndex].ignored = true
 			}
+		}
+
+		// Match rightauth=eap-radius lines
+    reRightAuthEAP := regexp.MustCompile(`rightauth=eap-radius`)
+    matchRightAuthEAP := reRightAuthEAP.FindStringSubmatch(line)
+    if len(matchRightAuthEAP) >= 1 {
+            connectionIndex := len(connections) - 1
+            if len(connections) > connectionIndex {
+                    connections[connectionIndex].auth = "eap"
+            }
+    }
+		// Match rightauth2=xauth-radius lines
+		reRightAuthXAUTH := regexp.MustCompile(`rightauth2=xauth-radius`)
+		matchRightAuthXAUTH := reRightAuthXAUTH.FindStringSubmatch(line)
+		if len(matchRightAuthXAUTH) >= 1 {
+		        connectionIndex := len(connections) - 1
+		        if len(connections) > connectionIndex {
+		                connections[connectionIndex].auth = "xauth"
+		        }
 		}
 
 		reIgnore := regexp.MustCompile(`include\s(.*)`)
