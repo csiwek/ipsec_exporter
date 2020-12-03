@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/dennisstritzke/ipsec_exporter/exporter"
+	"github.com/csiwek/ipsec_exporter/exporter"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -14,10 +14,10 @@ const (
 
 var Version string
 var RootCmd = &cobra.Command{
-	Use:   "ipsec_exporter",
-	Short: "Prometheus exporter for ipsec status.",
-	Long:  "",
-	Run:   defaultCommand,
+	Use:     "ipsec_exporter",
+	Short:   "Prometheus exporter for ipsec status.",
+	Long:    "",
+	Run:     defaultCommand,
 	Version: Version,
 }
 
