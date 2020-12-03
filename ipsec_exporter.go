@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/dennisstritzke/ipsec_exporter/cmd"
+	"github.com/csiwek/ipsec_exporter/cmd"
 )
 
 func main() {
