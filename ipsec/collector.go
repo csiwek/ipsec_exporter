@@ -36,30 +36,16 @@ func (c *Collector) Describe(ch chan<- *prometheus.Desc) {
 func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 	for _, configuration := range c.configurations {
 		for _, tunnelconfig := range configuration.tunnel {
-			if (tunnelconfig.auth == "eap") || (tunnelconfig.auth == "xauth") {
-				status := queryUserStatus(tunnelconfig, &cliStatusProvider{})
-				for tunnel, tunnelStatus := range status {
-					for user, userdata := range tunnelStatus {
-						fmt.Println("tunnel name: ", tunnel, "\nStatus: ", userdata, "\n")
-						ch <- prometheus.MustNewConstMetric(metricUp, prometheus.GaugeValue, c.toFloat64(userdata.up), tunnel, user)
-						ch <- prometheus.MustNewConstMetric(metricStatus, prometheus.GaugeValue, float64(userdata.status), tunnel, user)
-						ch <- prometheus.MustNewConstMetric(metricBytesIn, prometheus.CounterValue, float64(userdata.ubytesIn), tunnel, user)
-						ch <- prometheus.MustNewConstMetric(metricBytesOut, prometheus.CounterValue, float64(userdata.ubytesOut), tunnel, user)
-						ch <- prometheus.MustNewConstMetric(metricPacketsIn, prometheus.CounterValue, float64(userdata.upacketsIn), tunnel, user)
-						ch <- prometheus.MustNewConstMetric(metricPacketsOut, prometheus.CounterValue, float64(userdata.upacketsOut), tunnel, user)
-					}
-				}
-			} else {
-				status := queryTunnelStatus(tunnelconfig, &cliStatusProvider{})
-				user := ""
-				for tunnel, tunnelStatus := range status {
-					fmt.Println("tunnel name: ", tunnel, "\nStatus: ", tunnelStatus, "\n")
-					ch <- prometheus.MustNewConstMetric(metricUp, prometheus.GaugeValue, c.toFloat64(tunnelStatus.up), tunnel, user)
-					ch <- prometheus.MustNewConstMetric(metricStatus, prometheus.GaugeValue, float64(tunnelStatus.status), tunnel, user)
-					ch <- prometheus.MustNewConstMetric(metricBytesIn, prometheus.CounterValue, float64(tunnelStatus.bytesIn), tunnel, user)
-					ch <- prometheus.MustNewConstMetric(metricBytesOut, prometheus.CounterValue, float64(tunnelStatus.bytesOut), tunnel, user)
-					ch <- prometheus.MustNewConstMetric(metricPacketsIn, prometheus.CounterValue, float64(tunnelStatus.packetsIn), tunnel, user)
-					ch <- prometheus.MustNewConstMetric(metricPacketsOut, prometheus.CounterValue, float64(tunnelStatus.packetsOut), tunnel, user)
+			status := queryUserStatus(tunnelconfig, &cliStatusProvider{})
+			for tunnel, tunnelStatus := range status {
+				for user, userdata := range tunnelStatus {
+					fmt.Println("tunnel name: ", tunnel, "\nStatus: ", userdata, "\n")
+					ch <- prometheus.MustNewConstMetric(metricUp, prometheus.GaugeValue, c.toFloat64(userdata.up), tunnel, user)
+					ch <- prometheus.MustNewConstMetric(metricStatus, prometheus.GaugeValue, float64(userdata.status), tunnel, user)
+					ch <- prometheus.MustNewConstMetric(metricBytesIn, prometheus.CounterValue, float64(userdata.ubytesIn), tunnel, user)
+					ch <- prometheus.MustNewConstMetric(metricBytesOut, prometheus.CounterValue, float64(userdata.ubytesOut), tunnel, user)
+					ch <- prometheus.MustNewConstMetric(metricPacketsIn, prometheus.CounterValue, float64(userdata.upacketsIn), tunnel, user)
+					ch <- prometheus.MustNewConstMetric(metricPacketsOut, prometheus.CounterValue, float64(userdata.upacketsOut), tunnel, user)
 				}
 			}
 		}
