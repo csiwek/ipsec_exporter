@@ -136,7 +136,7 @@ func queryUserStatus(ipSecConfiguration connection, provider statusProvider) map
 				_uname = extractStringWithRegex(rout, `Remote XAuth identity: ([0-9a-zA-Z]+)`)
 			} else {
 				//_uname = extractStringWithRegex(rout, `=== ([0-9a-zA-Z\.\/]+)`)
-				_uname = extractStringWithRegex(rout, `SPIs: ([0-9a-z\_]+)`)
+				_uname = extractStringWithRegex(rout, `INSTALLED (.*) SPIs: ([0-9a-z\_]+)`)
 			}
 
 			_ubytesIn = extractIntWithRegex(rout, `([[0-9]+) bytes_i`)
